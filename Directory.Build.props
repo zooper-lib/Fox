@@ -1,0 +1,51 @@
+<Project>
+    <PropertyGroup>
+        <Authors>Daniel Martin</Authors>
+        <Company>Zooper</Company>
+        <Copyright>Copyright © Zooper $([System.DateTime]::Now.ToString('yyyy'))</Copyright>
+        <PackageLicenseExpression>MIT</PackageLicenseExpression>
+        <PackageProjectUrl>https://github.com/zooper-lib/Fox</PackageProjectUrl>
+        <RepositoryUrl>https://github.com/zooper-lib/Fox</RepositoryUrl>
+        <RepositoryType>git</RepositoryType>
+        <PackageIcon>icon.png</PackageIcon>
+        <PackageTags>discriminated-union;either;option;functional;monad;railway;error-handling;result</PackageTags>
+        <PackageReadmeFile>README.md</PackageReadmeFile>
+        <Description>Fox is a .NET library that provides functional programming abstractions like Either and Option types, enabling safer error handling and more expressive code patterns.</Description>
+
+        <!-- Version information -->
+        <Version>1.0.0</Version>
+        <AssemblyVersion>1.0.0.0</AssemblyVersion>
+        <FileVersion>1.0.0.0</FileVersion>
+
+        <!-- Source linking -->
+        <PublishRepositoryUrl>true</PublishRepositoryUrl>
+        <EmbedUntrackedSources>true</EmbedUntrackedSources>
+        <IncludeSymbols>true</IncludeSymbols>
+        <SymbolPackageFormat>snupkg</SymbolPackageFormat>
+        <AllowedOutputExtensionsInPackageBuildOutputFolder>$(AllowedOutputExtensionsInPackageBuildOutputFolder);.pdb</AllowedOutputExtensionsInPackageBuildOutputFolder>
+
+        <!-- Code quality and analysis -->
+        <AnalysisLevel>latest</AnalysisLevel>
+        <EnforceCodeStyleInBuild>true</EnforceCodeStyleInBuild>
+        <TreatWarningsAsErrors>true</TreatWarningsAsErrors>
+
+        <!-- Use latest C# version -->
+        <LangVersion>latest</LangVersion>
+        <Nullable>enable</Nullable>
+        <ImplicitUsings>disable</ImplicitUsings>
+        
+        <!-- Documentation -->
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+        <NoWarn>$(NoWarn);CS1591</NoWarn> <!-- Disable warning for missing XML comments -->
+    </PropertyGroup>
+
+    <ItemGroup>
+        <None Include="$(MSBuildThisFileDirectory)icon.png" Pack="true" PackagePath="\" />
+        <None Include="$(MSBuildThisFileDirectory)README.md" Pack="true" PackagePath="\" />
+    </ItemGroup>
+    
+    <!-- Common package references for all projects -->
+    <ItemGroup Condition="'$(IsPackable)' != 'false'">
+        <PackageReference Include="Microsoft.SourceLink.GitHub" Version="1.1.1" PrivateAssets="All" />
+    </ItemGroup>
+</Project>
