@@ -229,7 +229,7 @@ public class Either<TLeft, TRight>
 	/// </code>
 	/// </example>
 	public static implicit operator Either<TLeft, TRight>(TRight right) => FromRight(right);
-	
+
 	/// <summary>
 	/// Represents the internal state of an Either instance.
 	/// </summary>
@@ -239,10 +239,46 @@ public class Either<TLeft, TRight>
 		/// The instance contains a Left value.
 		/// </summary>
 		Left,
-		
+
 		/// <summary>
 		/// The instance contains a Right value.
 		/// </summary>
 		Right
+	}
+
+	/// <summary>
+	/// Executes one of two actions based on whether this instance contains a Left or Right value.
+	/// This method is designed for performing side effects without returning a value.
+	/// </summary>
+	/// <param name="leftAction">The action to execute if this instance contains a Left value.</param>
+	/// <param name="rightAction">The action to execute if this instance contains a Right value.</param>
+	/// <exception cref="InvalidOperationException">Thrown if neither Left nor Right values are present (which should not occur in normal usage).</exception>
+	/// <example>
+	/// <code>
+	/// // Log different messages based on the result
+	/// result.When(
+	///     error => logger.LogError(error),
+	///     success => logger.LogInformation($"Operation succeeded with value: {success}")
+	/// );
+	/// </code>
+	/// </example>
+	public void When(
+		Action<TLeft> leftAction,
+		Action<TRight> rightAction)
+	{
+		if (IsLeft)
+		{
+			leftAction(_left!);
+			return;
+		}
+
+		// ReSharper disable once InvertIf
+		if (IsRight)
+		{
+			rightAction(_right!);
+			return;
+		}
+
+		throw new InvalidOperationException("Invalid Either state.");
 	}
 }
