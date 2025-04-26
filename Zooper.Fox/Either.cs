@@ -263,22 +263,22 @@ public class Either<TLeft, TRight>
 	/// </code>
 	/// </example>
 	public void When(
-		Action<TLeft> leftAction,
-		Action<TRight> rightAction)
+		Action<TLeft>? leftAction,
+		Action<TRight>? rightAction)
 	{
-		if (IsLeft)
+		if (IsLeft is false && IsRight is false || IsLeft is true && IsRight is true)
+		{
+			throw new InvalidOperationException("Invalid Either state.");
+		}
+
+		if (IsLeft && leftAction is not null)
 		{
 			leftAction(_left!);
-			return;
 		}
 
-		// ReSharper disable once InvertIf
-		if (IsRight)
+		if (IsRight && rightAction is not null)
 		{
 			rightAction(_right!);
-			return;
 		}
-
-		throw new InvalidOperationException("Invalid Either state.");
 	}
 }
